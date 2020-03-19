@@ -24,8 +24,10 @@ ActiveRecord::Schema.define(version: 2020_03_19_064737) do
     t.text "present_address", null: false
     t.text "permanent_address", null: false
     t.boolean "status"
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_employee_basic_infos_on_user_id"
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

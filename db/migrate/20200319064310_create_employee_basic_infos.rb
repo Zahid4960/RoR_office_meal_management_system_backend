@@ -13,6 +13,7 @@ class CreateEmployeeBasicInfos < ActiveRecord::Migration[5.2]
       t.text :present_address, null: false
       t.text :permanent_address, null: false
       t.boolean :status, null: true
+      t.references :user, null: false
       t.timestamps
     end
   end
