@@ -1,3 +1,12 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
+  # resources :basic_info, controller: 'api/v1/employee/basic-info'
+  namespace :api do
+    namespace :v1 do
+      namespace :employee do
+        resources :basic_infos
+      end
+    end
+  end
+
 end
