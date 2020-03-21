@@ -16,6 +16,18 @@ ActiveRecord::Schema.define(version: 2020_03_19_064737) do
     t.string "first_name", null: false
     t.string "middle_name"
     t.string "last_name"
+    t.boolean "sex", null: false
+    t.string "dop", null: false
+    t.string "nid", null: false
+    t.string "father_name", null: false
+    t.string "mother_name", null: false
+    t.text "present_address", null: false
+    t.text "permanent_address", null: false
+    t.boolean "status"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_employee_basic_infos_on_user_id"
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
