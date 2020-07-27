@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 2020_07_27_072343) do
     t.text "office_address", null: false
     t.text "office_contact", null: false
     t.integer "office_type_id", null: false
+    t.boolean "active", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
