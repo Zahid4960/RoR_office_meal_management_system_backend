@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_27_082044) do
+ActiveRecord::Schema.define(version: 2020_07_27_082557) do
 
   create_table "departments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "department_name", null: false
@@ -39,6 +39,24 @@ ActiveRecord::Schema.define(version: 2020_07_27_082044) do
     t.text "office_contact", null: false
     t.integer "office_type_id", null: false
     t.boolean "active", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "user_infos", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "emp_id", null: false
+    t.string "first_name", null: false
+    t.string "last_name"
+    t.date "dop", null: false
+    t.integer "gender", null: false
+    t.text "present_address", null: false
+    t.text "permanent_address", null: false
+    t.string "contact", null: false
+    t.text "education", null: false
+    t.date "joining_date", null: false
+    t.integer "office_id", null: false
+    t.integer "designation_id", null: false
+    t.integer "department_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
