@@ -10,32 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_19_064737) do
+ActiveRecord::Schema.define(version: 2020_07_27_071658) do
 
-  create_table "employee_basic_infos", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "first_name", null: false
-    t.string "middle_name"
-    t.string "last_name"
-    t.boolean "sex", null: false
-    t.string "dop", null: false
-    t.string "nid", null: false
-    t.string "father_name", null: false
-    t.string "mother_name", null: false
-    t.text "present_address", null: false
-    t.text "permanent_address", null: false
-    t.boolean "status"
-    t.bigint "user_id", null: false
+  create_table "office_types", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "type", null: false
+    t.boolean "active", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_employee_basic_infos_on_user_id"
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "username", null: false
     t.string "email", null: false
+    t.string "user_name", null: false
     t.string "password", null: false
-    t.string "access_token", null: false
-    t.boolean "active", default: false, null: false
+    t.boolean "active", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
