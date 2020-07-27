@@ -17,8 +17,6 @@ ActiveRecord::Schema.define(version: 2020_07_27_072343) do
     t.boolean "active", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "{:foreign_keys=>true}_id"
-    t.index ["{:foreign_keys=>true}_id"], name: "index_office_types_on_{:foreign_keys=>true}_id"
   end
 
   create_table "offices", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
