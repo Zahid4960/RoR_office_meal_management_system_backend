@@ -10,11 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_27_071658) do
+ActiveRecord::Schema.define(version: 2020_07_27_072343) do
 
   create_table "office_types", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "type", null: false
     t.boolean "active", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "{:foreign_keys=>true}_id"
+    t.index ["{:foreign_keys=>true}_id"], name: "index_office_types_on_{:foreign_keys=>true}_id"
+  end
+
+  create_table "offices", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "office_name", null: false
+    t.text "office_address", null: false
+    t.text "office_contact", null: false
+    t.integer "office_type_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
