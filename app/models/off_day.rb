@@ -1,0 +1,2 @@
+class OffDay < ApplicationRecord
+end

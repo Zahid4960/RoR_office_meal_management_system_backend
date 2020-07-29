@@ -10,7 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_27_082557) do
+ActiveRecord::Schema.define(version: 2020_07_29_083846) do
+
+  create_table "days", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "day", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "departments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "department_name", null: false
@@ -24,6 +30,16 @@ ActiveRecord::Schema.define(version: 2020_07_27_082557) do
     t.boolean "active", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "off_days", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "day_id", null: false
+    t.integer "office_id", null: false
+    t.boolean "active", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["day_id"], name: "index_off_days_on_day_id"
+    t.index ["office_id"], name: "index_off_days_on_office_id"
   end
 
   create_table "office_types", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -66,6 +82,7 @@ ActiveRecord::Schema.define(version: 2020_07_27_082557) do
     t.string "user_name", null: false
     t.string "password", null: false
     t.boolean "active", default: false
+    t.boolean "is_admin", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
