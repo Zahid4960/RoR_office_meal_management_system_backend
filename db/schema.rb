@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_29_085147) do
+ActiveRecord::Schema.define(version: 2020_07_29_085719) do
 
   create_table "days", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "day", null: false
@@ -39,6 +39,21 @@ ActiveRecord::Schema.define(version: 2020_07_29_085147) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["office_id"], name: "index_meal_settings_on_office_id"
+  end
+
+  create_table "meals", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "meal_count", null: false
+    t.datetime "date", null: false
+    t.integer "office_id", null: false
+    t.integer "off_day_id", null: false
+    t.integer "meal_setting_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["meal_setting_id"], name: "index_meals_on_meal_setting_id"
+    t.index ["off_day_id"], name: "index_meals_on_off_day_id"
+    t.index ["office_id"], name: "index_meals_on_office_id"
+    t.index ["user_id"], name: "index_meals_on_user_id"
   end
 
   create_table "off_days", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
