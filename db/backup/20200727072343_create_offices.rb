@@ -5,9 +5,10 @@ class CreateOffices < ActiveRecord::Migration[5.2]
       t.string :office_name, null: false
       t.text :office_address, null: false
       t.text :office_contact, null: false
-      t.integer :office_type_id, null: false
-      t.boolean :active, default: 0
+      t.references :office_type, index: true
+      t.boolean :active, default: 1
       t.timestamps
     end
+      add_foreign_key :offices, :office_types, on_delete: :cascade
   end
 end

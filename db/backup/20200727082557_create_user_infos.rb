@@ -12,10 +12,11 @@ class CreateUserInfos < ActiveRecord::Migration[5.2]
       t.string :contact, null: false
       t.text :education, null: false
       t.date :joining_date, null: false
-      t.integer :office_id, null: false
+      t.references :office, null: false, index: 
       t.integer :designation_id, null: false
       t.integer :department_id, null: false
       t.timestamps
     end
+    add_foreign_key :user_infos, :offices, on_delete: :cascade
   end
 end
