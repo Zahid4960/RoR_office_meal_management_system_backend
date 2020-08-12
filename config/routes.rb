@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   #Authentication
-  get "registration" => "users#registration"
+  post "registration" => "authentication#registration"
   # namespace :api do
   #   namespace :v1 do
   #     namespace :employee do
