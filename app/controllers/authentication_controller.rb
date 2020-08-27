@@ -2,25 +2,31 @@ class AuthenticationController < ApplicationController
 
 # registration method
 def registration
-  begin
-    @registration_data = User.new(registration_params)
-    # save
-    if @registration_data.save
-      render json: {
-        status: 'success',
-        message: 'User Registration Successful!!',
-        data: @registration_data
-      }
-    end
-  rescue
+  registration_data = User.new(registration_params)
+
+  # password encryption
+  encrypted_password = BCrypt::Password.create(registration_data['password'])
+
+  # store encrypted password into the registration_params
+  registration_data['password'] = encrypted_password
+
+  # save
+  if registration_data.save
+    # response
     render json: {
-      status: 'failed',
-      message: 'Something Went Wrong!!!',
-      data: @registration_data.errors
+      status: 'success',
+      message: 'Registration Successful!!',
+      data: registration_data
+    }
+  else
+    # error response
+    render json: {
+      status: 'error',
+      message: 'Registration Not Successful!!',
+      errors: registration_data.errors
     }
   end
 end
-
 
 # private methods
 private

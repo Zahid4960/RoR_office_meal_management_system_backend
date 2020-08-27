@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  # has_secure_password :password
   # regular expression for email
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
