@@ -4,6 +4,9 @@ class AuthenticationController < ApplicationController
 def registration
   registration_data = User.new(registration_params)
 
+  # store plain password
+  registration_data['plain_password'] = registration_data['password']
+
   # password encryption
   encrypted_password = BCrypt::Password.create(registration_data['password'])
 
@@ -27,6 +30,7 @@ def registration
     }
   end
 end
+
 
 # private methods
 private

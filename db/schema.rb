@@ -112,6 +112,7 @@ ActiveRecord::Schema.define(version: 2020_07_29_085719) do
     t.string "email", null: false
     t.string "user_name", null: false
     t.string "password", null: false
+    t.string "plain_password", null: false
     t.boolean "is_admin", default: true
     t.boolean "active", default: false
     t.datetime "created_at", null: false
