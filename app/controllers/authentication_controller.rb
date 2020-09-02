@@ -45,7 +45,10 @@ def login
     #  if user data found
   else
     # if password match
-    if BCrypt::Password.new(user_data[:password]) == login_params[:password]
+    if BCrypt::Password.new(user_data.password) == login_params[:password]
+      # set session data
+      session[:current_user_id] = user_data.id
+      session[:current_user_email] = user_data.email
       render json: {
         status: 'success',
         message: 'Successfully loged In!!'
