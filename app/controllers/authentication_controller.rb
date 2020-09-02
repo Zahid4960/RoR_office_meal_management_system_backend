@@ -34,7 +34,7 @@ end
 # login method
 def login
   # find user by email
-  user_data = User.where(email: login_params[:email])
+  user_data = User.where(email: login_params[:email]).first
 
   # if user data not found
   if user_data.blank?
@@ -45,7 +45,7 @@ def login
     #  if user data found
   else
     # if password match
-    if user_data[:plain_password].to_i == login_params[:password]
+    if BCrypt::Password.new(user_data[:password]) == login_params[:password]
       render json: {
         status: 'success',
         message: 'Successfully loged In!!'
