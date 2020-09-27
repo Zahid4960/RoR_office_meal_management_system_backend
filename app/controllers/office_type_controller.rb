@@ -1,7 +1,7 @@
 class OfficeTypeController < ApplicationController
 
   def index
-    office_type_lists = OfficeType.limit(params[:limit]).offset(params[:offset])
+    office_type_lists = OfficeType.all
     render json: office_type_lists
   end
 
@@ -19,6 +19,24 @@ class OfficeTypeController < ApplicationController
           status: 'error',
           message: office_type_data.errors
         }
+    end
+  end
+
+
+  def show
+    @office_type_by_id = OfficeType.find(params[:id])
+
+    if @office_type_by_id.blank?
+      render json: {
+        status: "success",
+        message: "No Data Found!!!"
+      }
+    else
+      render json: {
+        status: "success",
+        message: "Data Found!!",
+        data: @office_type_by_id
+      }
     end
   end
 
