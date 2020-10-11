@@ -15,10 +15,10 @@ class OfficeTypeController < ApplicationController
         data: office_type_data
       }
     else
-        render json: {
-          status: 'error',
-          message: office_type_data.errors
-        }
+      render json: {
+        status: 'error',
+        message: office_type_data.errors
+      }
     end
   end
 
@@ -39,6 +39,30 @@ class OfficeTypeController < ApplicationController
       }
     end
   end
+
+
+  def destroy
+    @office_type_by_id = OfficeType.find(params[:id])
+
+    rescue => e
+      render json: {
+        status: "success",
+        message: "No Data Found!!!"
+      }
+    end
+
+    if @office_type_by_id.destroy
+      render json: {
+        status: 'success',
+        message: 'Data Deleted Successfully!!!'
+      }
+    else
+      render json: {
+        status: 'error',
+        message: 'Something Went Wrong!!!'
+      }
+    end
+
 
 
   private
