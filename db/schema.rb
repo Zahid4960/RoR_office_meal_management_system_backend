@@ -68,7 +68,7 @@ ActiveRecord::Schema.define(version: 2020_07_29_085719) do
   end
 
   create_table "office_types", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "type", null: false
+    t.string "type_name", null: false
     t.boolean "active", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
