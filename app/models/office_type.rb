@@ -1,3 +1,3 @@
 class OfficeType < ApplicationRecord
-  validates :type_name, presence: true
+  validates :type_name, presence: true, uniqueness: true
 end

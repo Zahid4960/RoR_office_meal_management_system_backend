@@ -30,47 +30,46 @@ class AuthenticationController < ApplicationController
   end
 
 
-def login
-  @user_data = User.where(email: login_params[:email]).first
-  if @user_data.blank?
-    render json: {
-      staus: 'error',
-      message: 'Invalid Email!!'
-    }
+  def login
+    @user_data = User.where(email: login_params[:email]).first
+    if @user_data.blank?
+      render json: {
+        staus: 'error',
+        message: 'Invalid Email!!'
+      }
 
-  else
-    if BCrypt::Password.new(@user_data.password) == login_params[:password]
-      session[:current_user_id] = @user_data.id
-      session[:current_user_email] = @user_data.email
-      render json: {
-        status: 'success',
-        message: 'Successfully loged In!!'
-      }
     else
-      render json: {
-        status: 'error',
-        message: 'Password Does Not Match!!'
-      }
+      if BCrypt::Password.new(@user_data.password) == login_params[:password]
+        session[:current_user_id] = @user_data.id
+        session[:current_user_email] = @user_data.email
+        render json: {
+          status: 'success',
+          message: 'Successfully loged In!!'
+        }
+      else
+        render json: {
+          status: 'error',
+          message: 'Password Does Not Match!!'
+        }
+      end
     end
   end
-end
 
 
-private
+  private
+  def registration_params
+    params.permit(
+      :email,
+      :user_name,
+      :password
+    )
+  end
 
-def registration_params
-  params.permit(
-    :email,
-    :user_name,
-    :password
-  )
-end
 
-def login_params
-  params.permit(
-    :email,
-    :password
-  )
-end
-
+  def login_params
+    params.permit(
+      :email,
+      :password
+    )
+  end
 end
