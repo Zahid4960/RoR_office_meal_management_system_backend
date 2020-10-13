@@ -4,5 +4,6 @@ Rails.application.routes.draw do
   post "login" => "authentication#login"
 
   resources :office_type
+  resources :office
 
 end
