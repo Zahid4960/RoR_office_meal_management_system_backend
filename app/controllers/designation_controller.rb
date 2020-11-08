@@ -67,6 +67,22 @@ class DesignationController < ApplicationController
   end
 
   def destroy
+    begin
+      @designation_by_id = Designation.find(params[:id])
+
+      if @designation_by_id.destroy
+        render json: {
+            status: 'success',
+            message: 'Designation Data Deleted Successfully!!!'
+        }
+      end
+
+    rescue
+      render json: {
+          status: 'error',
+          message: 'Exception appears, Something Went Wrong'
+      }
+    end
   end
 
   private
