@@ -61,7 +61,7 @@ class OfficeController < ApplicationController
 
   def office_params
     params.permit(
-      :office_name,
+        :office_name,
       :office_address,
       :office_contact,
       :office_type_id
