@@ -27,9 +27,43 @@ class DesignationController < ApplicationController
   end
 
   def show
+    begin
+    @designation_by_id = Designation.find(params[:id])
+
+    render json: {
+        status: 'success',
+        message: 'Designation Data Found!!!',
+        data: @designation_by_id
+    }
+
+    rescue
+      render json: {
+          status: 'error',
+          message: 'Exception appears, something went wrong data for id' + ' ' + params[:id] + ' ' 'doesn\'t exist !!!'
+      }
+      end
   end
 
   def update
+    begin
+      @designation_by_id = Designation.find(params[:id])
+
+      @update_designation_data = @designation_by_id.update(update_designation_params)
+
+      if @update_designation_data
+        render json: {
+            status: 'success',
+            message: 'Data updated successfully!!!',
+            data: Designation.find(params[:id])
+        }
+      end
+
+    rescue
+      render json: {
+          status: 'error',
+          message: 'Exception appear, something went wrong. Data for id' + ' ' + params[:id] + ' ' + 'doesn\'t exist!!!'
+      }
+    end
   end
 
   def destroy
@@ -38,6 +72,13 @@ class DesignationController < ApplicationController
   private
 
   def designation_params
+    params.permit(
+        :designation_name,
+        :office_id
+    )
+  end
+
+  def update_designation_params
     params.permit(
         :designation_name,
         :office_id
