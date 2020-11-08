@@ -39,7 +39,8 @@ class DesignationController < ApplicationController
 
   def designation_params
     params.permit(
-        :designation_name
+        :designation_name,
+        :office_id
     )
   end
 
