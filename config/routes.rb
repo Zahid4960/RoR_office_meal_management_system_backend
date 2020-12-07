@@ -6,5 +6,5 @@ Rails.application.routes.draw do
   resources :office_type
   resources :office
   resources :designation
-  resources :department 
+  resources :department
 end
