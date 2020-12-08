@@ -37,7 +37,7 @@ class DepartmentController < ApplicationController
     begin
       @department_by_id = Department.find(params[:id])
       render json: {
-        status: "succsess",
+        status: "success",
         message: "Department found for id #{params[:id]}",
         data: @department_by_id
       }
@@ -50,6 +50,41 @@ class DepartmentController < ApplicationController
   end
 
   def update
+    begin
+      @department_by_id = Department.find(params[:id])
+      @update_department = @department_by_id.update(update_department_params)
+
+      if @update_department
+        render json: {
+          status: "success",
+          message: "Department data updated successfully !!!",
+          data: Department.find(params[:id])
+        }
+      end
+    rescue
+      render json: {
+        status: "error",
+        message: "Exception appears department data don\t updated for id #{params[:id]}"
+      }
+    end
+  end
+
+  def destroy
+    begin
+      @department_by_id = Department.find(params[:id])
+      if @department_by_id.destroy
+        render json: {
+          status: "success",
+          message: "Department data deleted successfully!!!"
+        }
+      end
+    rescue
+      render json: {
+        status: "error",
+        message: "Exception appears department data not deleted"
+      }
+    end
+
 
   end
 
@@ -61,5 +96,9 @@ class DepartmentController < ApplicationController
     )
   end
 
-
+  def update_department_params
+    params.permit(
+      :department_name
+    )
+  end
 end
