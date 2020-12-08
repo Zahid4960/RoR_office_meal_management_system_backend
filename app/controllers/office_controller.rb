@@ -56,12 +56,57 @@ class OfficeController < ApplicationController
     end
   end
 
+  def update
+    begin
+      @office_by_id = Office.find(params[:id])
+      @update_office_data = @office_by_id.update(update_office_params)
+
+      if @update_office_data
+        render json: {
+          status: "success",
+          message: "Office data updated successfully!!!",
+          data: Office.find(params[:id])
+        }
+      end
+    rescue
+      render json: {
+        status: "error",
+        message: "Exception appears office data does not updated!!!"
+      }
+    end
+  end
+
+  def destroy
+    begin
+      @office_by_id = Office.find(params[:id])
+
+      if @office_by_id.destroy
+        render json: {
+          status: "success",
+          message: "Office data deleted successfully!!!"
+        }
+      end
+    rescue
+      render json: {
+        status: "error",
+        message: "Exception appears office data does not deleted!!!"
+      }
+    end
+  end
 
   private
-
   def office_params
     params.permit(
         :office_name,
+      :office_address,
+      :office_contact,
+      :office_type_id
+    )
+  end
+
+  def update_office_params
+    params.permit(
+      :office_name,
       :office_address,
       :office_contact,
       :office_type_id
