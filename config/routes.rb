@@ -7,4 +7,5 @@ Rails.application.routes.draw do
   resources :office
   resources :designation
   resources :department
+  resources :day
 end

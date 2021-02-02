@@ -21,7 +21,7 @@
   <component name="ChangeListManager">
     <list default="true" id="f84c2ac5-d478-4123-a145-17b37a83e07f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/controllers/office_controller.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/office_controller.rb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/routes.rb" beforeDir="false" afterPath="$PROJECT_DIR$/config/routes.rb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,7 +56,10 @@
       <workItem from="1603607304179" duration="35000" />
       <workItem from="1604811275860" duration="9640000" />
       <workItem from="1607320226048" duration="10203000" />
-      <workItem from="1607403584163" duration="4305000" />
+      <workItem from="1607403584163" duration="4930000" />
+      <workItem from="1608982861046" duration="1678000" />
+      <workItem from="1609070188979" duration="22000" />
+      <workItem from="1612249237608" duration="1218000" />
     </task>
     <servers />
   </component>
