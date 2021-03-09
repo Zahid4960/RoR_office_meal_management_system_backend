@@ -1,9 +1,15 @@
 class OfficeTypeController < ApplicationController
 
+  # require_relative '../repositories/office_type_repository'
+  require_relative '../services/office_type_service'
   def index
-    @limit = params['limit'] != nil ? params['limit'] : 10
-    @office_type_lists = OfficeType.paginate(page: params[:page], :per_page => @limit)
-    render json: @office_type_lists
+    # @limit = params['limit'] != nil ? params['limit'] : 10
+    # @office_type_lists = OfficeType.paginate(page: params[:page], :per_page => @limit)
+    # render json: @office_type_lists
+
+    # render json: repo.index
+     @data = office_type_service.index
+    render json: @data
   end
 
 
@@ -84,6 +90,13 @@ end
 
 private
 
+  def office_type_service
+    @service ||= OfficeTypeService.new
+  end
+  #
+  # def office_type_repo
+  #   @repo ||= OfficeTypeRepository.new
+  # end
   def office_type_params
     params.permit(
       :type_name
