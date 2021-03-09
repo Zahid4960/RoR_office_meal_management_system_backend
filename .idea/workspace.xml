@@ -19,7 +19,13 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f84c2ac5-d478-4123-a145-17b37a83e07f" name="Default Changelist" comment="" />
+    <list default="true" id="f84c2ac5-d478-4123-a145-17b37a83e07f" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/controllers/office_type_controller.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/controllers/office_type_controller.rb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/repositories/office_type_repository.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/repositories/office_type_repository.rb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/services/office_type_service.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/services/office_type_service.rb" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -75,6 +81,7 @@
       <workItem from="1612249237608" duration="1998000" />
       <workItem from="1613648419524" duration="1509000" />
       <workItem from="1615262061880" duration="15931000" />
+      <workItem from="1615309027498" duration="2679000" />
     </task>
     <servers />
   </component>

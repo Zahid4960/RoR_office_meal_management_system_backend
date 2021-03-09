@@ -6,7 +6,7 @@ class OfficeTypeController < ApplicationController
   def index
     begin
       @limit = params['limit'] != nil ? params['limit'] : 10
-      @lists = office_type_service.index
+      @lists = office_type_service.index(OfficeType)
       @data = @lists.paginate(page: params[:page], :per_page => @limit)
 
       if @data.length > 0

@@ -24,3 +24,5 @@
 
 # add databse config file into gitignore
 /config/database.yml
+
+.idea/
