@@ -1,109 +1,96 @@
 class OfficeTypeController < ApplicationController
 
-  # require_relative '../repositories/office_type_repository'
   require_relative '../services/office_type_service'
-  def index
-    # @limit = params['limit'] != nil ? params['limit'] : 10
-    # @office_type_lists = OfficeType.paginate(page: params[:page], :per_page => @limit)
-    # render json: @office_type_lists
 
-    # render json: repo.index
-     @data = office_type_service.index
-    render json: @data
+
+  def index
+    begin
+      @limit = params['limit'] != nil ? params['limit'] : 10
+      @lists = office_type_service.index
+      @data = @lists.paginate(page: params[:page], :per_page => @limit)
+
+      if @data.length > 0
+        render json: { status: "success", message: "Office types data found!!!", data: @data }
+      else
+        render json: { status: "success", message: "Office types Data not found!!!", data: [] }
+      end
+
+    rescue
+      render json: { status: "error", message: "Exception appear!!!" }
+    end
   end
 
 
   def create
-    @office_type_data = OfficeType.new(office_type_params)
-    if @office_type_data.save
-      render json: {
-        status: 'success',
-        message: 'Office Type Saved Successfully!!',
-        data: @office_type_data
-      }
-    else
-      render json: {
-        status: 'error',
-        message: @office_type_data.errors
-      }
+    begin
+      @data = office_type_service.create(office_type_params)
+
+      if office_type_params.blank?
+        render json: { status: 'error', message: 'type_name can not null or empty!!!' }
+      else
+        if @data
+          @data = office_type_service.last_inserted
+          render json: { status: 'success', message: 'Office type saved successfully!!!', data: @data }
+        else
+          render json: { status: 'error', message: 'Office type failed to save!!!' }
+        end
+      end
+
+    rescue
+      render json: { status: "error", message: "Exception appear!!!" }
     end
   end
 
 
   def show
     begin
-      @office_type_by_id = OfficeType.find(params[:id])
-      render json: {
-        status: "success",
-        message: "Data Found!!",
-        data: @office_type_by_id
-      }
+      @data = office_type_service.show(params[:id])
+      render json: { status: "success", message: "Office type data found!!!", data: @data }
     rescue
-      render json: {
-        status: "success",
-        message: "Exception appears data not found!!!"
-      }
+      render json: { status: "error", message: "Exception Appear!!!" }
     end
   end
 
 
 def update
   begin
-      @office_type_by_id = OfficeType::find(params[:id])
-
-      @update_office_type = @office_type_by_id.update(update_office_type_params)
-
-      if @update_office_type
-        render json: {
-          status: "success",
-          message: "Data Updated Successfully!!!",
-          data: OfficeType::find(params[:id])
-        }
-      end
+    @data = office_type_service.update(params[:id], update_office_type_params)
+    if @data
+      @data = office_type_service.show(params[:id])
+      render json: { status: "success", message: "Office type data updated successfully!!!", data: @data }
+    end
   rescue
-    render json: {
-      status: "error",
-      message: "Exception appears data not updated!!!"
-    }
+    render json: { status: "error", message: "Exception appear!!!" }
   end
 end
 
 
 def destroy
   begin
-    @office_type_by_id = OfficeType::find(params[:id])
+    @data = office_type_service.destroy(params[:id])
 
-    if @office_type_by_id.destroy
-      render json: {
-        status: "success",
-        message: "Data Deleted Successfully!!!"
-      }
+    if @data
+      render json: { status: "success", message: "Office type data deleted successfully!!!" }
     end
   rescue
-    render json: {
-      status: "success",
-      message: "No Data Found!!!"
-    }
+    render json: { status: "error", message: "Exception Appear!!!" }
   end
 end
 
 
-private
+def office_type_params
+  params.permit(:type_name)
+end
 
+
+def update_office_type_params
+  params.permit(:type_name)
+end
+
+
+private
   def office_type_service
     @service ||= OfficeTypeService.new
   end
-  #
-  # def office_type_repo
-  #   @repo ||= OfficeTypeRepository.new
-  # end
-  def office_type_params
-    params.permit(
-      :type_name
-    )
-  end
 
-  def update_office_type_params
-    params.permit(:type_name)
-  end
 end
