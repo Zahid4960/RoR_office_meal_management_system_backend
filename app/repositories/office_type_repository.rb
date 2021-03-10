@@ -1,4 +1,5 @@
-class OfficeTypeRepository < CrudRepository
+class OfficeTypeRepository
+
 
   # def get_all_office_types
   #   OfficeType.all
