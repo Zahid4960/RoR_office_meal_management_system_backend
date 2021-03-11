@@ -42,7 +42,7 @@ class OfficeTypeController < ApplicationController
     rescue
       render json: { status: "error", message: "Exception Appear office type data not found!!!" }
     end
-    end
+  end
 
   def update
     begin

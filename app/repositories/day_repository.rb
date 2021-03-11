@@ -1,0 +1,3 @@
+class DayRepository < BaseRepository
+
+end

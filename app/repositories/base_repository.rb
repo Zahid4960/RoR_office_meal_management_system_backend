@@ -1,7 +1,7 @@
 class BaseRepository
 
   def get_all(model)
-    model.where(active: 0)
+    model.all
   end
 
   def save_data(model, payload)
