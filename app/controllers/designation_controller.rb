@@ -1,104 +1,91 @@
 class DesignationController < ApplicationController
 
+  require_relative '../services/designation_service'
+
   def index
-    @limit = params['limit'] != nil ? params['limit'] : 10
-    @designation_lists = Designation.paginate(page: params[:page], :per_page => @limit)
-    render json: {
-        message: 'success',
-        data: @designation_lists
-    }
+    begin
+      @limit = params['limit'] != nil ? params['limit'] : 10
+      @lists = designation_service.index
+      @data = @lists.paginate(page: params[:page], :per_page => @limit)
+      if @data.length > 0
+        render json: { status: "success", message: "Designation data found!!!", data: @data }
+      else
+        render json: { status: "success", message: "Designation data not found!!!", data: @data }
+      end
+    rescue
+      render json: { status: "error", message: "Exception appear!!!" }
+    end
   end
 
   def create
-    @designation_data = Designation.new(designation_params)
-
-    if @designation_data.save
-      render json: {
-          status: 'success',
-          message: 'Designation Data Saved Successfully!!!',
-          data: @designation_data
-      }
-    else
-      render json: {
-          status: 'error',
-          message: @designation_data.errors
-      }
+    begin
+      if designation_params.blank?
+        render json: { status: 'error', message: 'Designation name & office can not null or empty!!!' }
+      else
+        @data = designation_service.create(designation_params)
+        if @data
+          @data = designation_service.last_inserted
+          render json: { status: 'success', message: 'Designation saved successfully!!!', data: designation_service.show(@data.id) }
+        end
+      end
+    rescue
+      render json: { status: "error", message: "Exception appear designation failed to save!!!" }
     end
   end
 
   def show
     begin
-    @designation_by_id = Designation.find(params[:id])
-
-    render json: {
-        status: 'success',
-        message: 'Designation Data Found!!!',
-        data: @designation_by_id
-    }
-
+      @designation_by_id = designation_service.show(params[:id])
+      render json: { status: "success", message: "Designation data Found!!!", data: @designation_by_id }
     rescue
-      render json: {
-          status: 'error',
-          message: 'Exception appears, something went wrong data for id' + ' ' + params[:id] + ' ' 'doesn\'t exist !!!'
-      }
-      end
+      render json: { status: "success", message: "Exception appears Designation data not found!!!" }
+    end
   end
 
   def update
     begin
-      @designation_by_id = Designation.find(params[:id])
-
-      @update_designation_data = @designation_by_id.update(update_designation_params)
-
-      if @update_designation_data
-        render json: {
-            status: 'success',
-            message: 'Data updated successfully!!!',
-            data: Designation.find(params[:id])
-        }
+      if update_designation_params.blank?
+        render json: { status: 'error', message: ' Designation name & office can not null or empty!!!' }
+      else
+        @data = designation_service.update(params[:id], update_designation_params)
+        if @data
+          @data = designation_service.show(params[:id])
+          render json: { status: "success", message: "Designation data updated successfully!!!", data: @data }
+        end
       end
-
     rescue
-      render json: {
-          status: 'error',
-          message: 'Exception appear, something went wrong. Data for id' + ' ' + params[:id] + ' ' + 'doesn\'t exist!!!'
-      }
+      render json: { status: "error", message: "Exception appear designation failed to update!!!" }
     end
   end
 
   def destroy
     begin
-      @designation_by_id = Designation.find(params[:id])
-
-      if @designation_by_id.destroy
-        render json: {
-            status: 'success',
-            message: 'Designation Data Deleted Successfully!!!'
-        }
+      @data = designation_service.destroy(params[:id])
+      if @data
+        render json: { status: "success", message: "Designation data deleted successfully!!!" }
       end
-
     rescue
-      render json: {
-          status: 'error',
-          message: 'Exception appears, Something Went Wrong'
-      }
+      render json: { status: "error", message: "Exception Appear (designation not found!!!)" }
     end
   end
 
-  private
-
   def designation_params
     params.permit(
-        :designation_name,
-        :office_id
+      :designation_name,
+      :office_id
     )
   end
 
   def update_designation_params
     params.permit(
-        :designation_name,
-        :office_id
+      :designation_name,
+      :office_id
     )
+  end
+
+  private
+  def designation_service
+    @service = DesignationService.new
   end
 
 end
