@@ -3,10 +3,18 @@ class OfficeController < ApplicationController
   require_relative '../services/office_service'
 
   def index
-    @office_lists = office_service.index
-    @limit = params['limit'] != nil ? params['limit'] : 10
-    @paginated_office_lists = @office_lists.paginate(page: params[:page], :per_page => @limit)
-    render json: { status: "success", message: @paginated_office_lists == [] ? "No Data Found" : "Data Found" , data: @paginated_office_lists }
+    begin
+      @limit = params['limit'] != nil ? params['limit'] : 10
+      @lists = office_service.index
+      @data = @lists.paginate(page: params[:page], :per_page => @limit)
+      if @data.length > 0
+        render json: { status: "success", message: "Office data found!!!", data: @data }
+      else
+        render json: { status: "success", message: "Office data not found!!!", data: @data }
+      end
+    rescue
+      render json: { status: "error", message: "Exception appear!!!" }
+    end
   end
 
   def create

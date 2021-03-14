@@ -6,4 +6,6 @@ class Department < ApplicationRecord
 
   validates :department_name, presence: true
   validates :office_id, presence: true
+
+  scope :active, -> { where(active: 1)}
 end

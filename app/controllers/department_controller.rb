@@ -1,94 +1,74 @@
 class DepartmentController < ApplicationController
 
+  require_relative '../repositories/dept_repository'
+
   def index
-    @department_data = Department.select(
-      "departments.*",
-      "offices.office_name"
-    ).joins(:office)
-
-    @limit = params[:limit] != nil ? params[:limit] : 10
-
-    @paginated_department_data_lists = @department_data.paginate(page: params[:page], :per_page => @limit)
-    render json: {
-      status: "success",
-      message: @paginated_department_data_lists == [] ? "Department data not found" : "Department Data Found",
-      data: @paginated_department_data_lists
-    }
+    begin
+      @limit = params['limit'] != nil ? params['limit'] : 10
+      @lists = dept_service.index
+      @data = @lists.paginate(page: params[:page], :per_page => @limit)
+      if @data.length > 0
+        render json: { status: "success", message: "Department data found!!!", data: @data }
+      else
+        render json: { status: "success", message: "Department data not found!!!", data: @data }
+      end
+    rescue
+      render json: { status: "error", message: "Exception appear!!!" }
+    end
   end
 
   def create
-    @department_data = Department.new(department_params)
-
-    if @department_data.save
-      render json: {
-        status: "success",
-        message: "Department data saved successfully!!!",
-        data:@department_data
-      }
-    else
-      render json: {
-        status: "error",
-        message: @department_data.errors
-      }
+    begin
+      if department_params.blank?
+        render json: { status: 'error', message: 'Department name & office can not null or empty!!!' }
+      else
+        @data = dept_service.create(department_params)
+        if @data
+          @data = dept_service.last_inserted
+          render json: { status: 'success', message: 'Department saved successfully!!!', data: dept_service.show(@data.id) }
+        end
+      end
+    rescue
+      render json: { status: "error", message: "Exception appear department failed to save!!!" }
     end
   end
 
   def show
     begin
-      @department_by_id = Department.find(params[:id])
-      render json: {
-        status: "success",
-        message: "Department found for id #{params[:id]}",
-        data: @department_by_id
-      }
+      @office_by_id = dept_service.show(params[:id])
+      render json: { status: "success", message: "Department data Found!!!", data: @office_by_id }
     rescue
-      render json: {
-        status: "error",
-        message: "Exception appears data not updated!!!"
-      }
+      render json: { status: "success", message: "Exception appears department data not found!!!" }
     end
   end
 
   def update
     begin
-      @department_by_id = Department.find(params[:id])
-      @update_department = @department_by_id.update(update_department_params)
-
-      if @update_department
-        render json: {
-          status: "success",
-          message: "Department data updated successfully !!!",
-          data: Department.find(params[:id])
-        }
+      if update_department_params.blank?
+        render json: { status: 'error', message: ' Department name & office can not null or empty!!!' }
+      else
+        @data = dept_service.update(params[:id], update_department_params)
+        if @data
+          @data = dept_service.show(params[:id])
+          render json: { status: "success", message: "Department data updated successfully!!!", data: @data }
+        end
       end
     rescue
-      render json: {
-        status: "error",
-        message: "Exception appears department data don\t updated for id #{params[:id]}"
-      }
+      render json: { status: "error", message: "Exception appear department failed to update!!!" }
     end
   end
 
   def destroy
     begin
-      @department_by_id = Department.find(params[:id])
-      if @department_by_id.destroy
-        render json: {
-          status: "success",
-          message: "Department data deleted successfully!!!"
-        }
+      @data = dept_service.destroy(params[:id])
+      if @data
+        render json: { status: "success", message: "Department data deleted successfully!!!" }
       end
     rescue
-      render json: {
-        status: "error",
-        message: "Exception appears department data not deleted"
-      }
+      render json: { status: "error", message: "Exception Appear (department not found!!!)" }
     end
-
-
   end
 
-  private
   def department_params
     params.permit(
       :department_name,
@@ -98,7 +78,14 @@ class DepartmentController < ApplicationController
 
   def update_department_params
     params.permit(
-      :department_name
+      :department_name,
+      :office_id
     )
   end
+
+  private
+  def dept_service
+    @service = DeptService.new
+  end
+
 end
