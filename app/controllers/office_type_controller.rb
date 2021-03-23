@@ -5,15 +5,14 @@ class OfficeTypeController < ApplicationController
   def index
     begin
       @limit = params['limit'] != nil ? params['limit'] : 10
-      @lists = office_type_service.index
-      @data = @lists.paginate(page: params[:page], :per_page => @limit)
+      @data = office_type_service.index(params[:page], @limit)
       if @data.length > 0
         render json: { status: "success", message: "Office types data found!!!", data: @data }
       else
         render json: { status: "success", message: "Office types Data not found!!!", data: @data }
       end
-    rescue
-      render json: { status: "error", message: "Exception appear!!!" }
+    rescue => error
+      render json: { status: "exception", message: "Exception appear at the office type data fetching!!!", exception: error.message }
     end
   end
 
@@ -26,8 +25,8 @@ class OfficeTypeController < ApplicationController
       else
         render json: { status: 'error', error: @data.errors.full_messages.first }
       end
-    rescue
-      render json: { status: "error", message: "Exception appear office type failed to save!!!" }
+    rescue => error
+      render json: { status: "exception", message: "Exception appear office type failed to save!!!" , exception: error.message }
     end
   end
 
@@ -35,8 +34,8 @@ class OfficeTypeController < ApplicationController
     begin
       @data = office_type_service.show(params[:id])
       render json: { status: "success", message: "Office type data found!!!", data: @data }
-    rescue
-      render json: { status: "error", message: "Exception Appear office type data not found!!!" }
+    rescue => error
+      render json: { status: "exception", message: "Exception Appear office type data not found!!!", exception: error.message }
     end
   end
 

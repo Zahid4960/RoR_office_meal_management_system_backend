@@ -1,7 +1,11 @@
 class BaseRepository
 
-  def get_all(model)
-    model.all
+  def get_all(model, page, limit)
+    if limit.to_i == -1
+      model.all
+    else
+      model.all.paginate(page: page, :per_page => limit)
+    end
   end
 
   def save_data(model, payload)

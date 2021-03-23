@@ -5,8 +5,8 @@ class OfficeTypeService
 
   @@model = OfficeType
 
-  def index
-      office_type_repo.get_all(@@model)
+  def index(page, limit)
+      office_type_repo.get_all(@@model, page, limit)
   end
 
   def store(payload)
