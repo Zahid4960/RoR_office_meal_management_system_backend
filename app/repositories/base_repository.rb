@@ -5,8 +5,7 @@ class BaseRepository
   end
 
   def save_data(model, payload)
-    @data = model.new(payload)
-    @data.save
+    @data = model.create(payload)
   end
 
   def find_by_id(model, id)

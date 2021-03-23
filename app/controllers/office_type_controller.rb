@@ -19,19 +19,15 @@ class OfficeTypeController < ApplicationController
 
   def create
     begin
-      if office_type_params.blank?
-        render json: { status: 'error', message: 'type_name can not null or empty!!!' }
+      @data = office_type_service.store(office_type_params)
+      if @data[:id] != nil
+        @data = office_type_service.last_inserted
+        render json: { status: 'success', message: 'Office type saved successfully!!!', data: @data }
       else
-        @data = office_type_service.create(office_type_params)
-        if @data
-          @data = office_type_service.last_inserted
-          render json: { status: 'success', message: 'Office type saved successfully!!!', data: @data }
-        else
-          render json: { status: 'error', message: 'Office type failed to save (office type exists already!!!)' }
-        end
+        render json: { status: 'error', error: @data.errors.full_messages.first }
       end
     rescue
-      render json: { status: "error", message: "Exception appear!!!" }
+      render json: { status: "error", message: "Exception appear office type failed to save!!!" }
     end
   end
 

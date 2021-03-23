@@ -9,7 +9,7 @@ class OfficeTypeService
       office_type_repo.get_all(@@model)
   end
 
-  def create(payload)
+  def store(payload)
     office_type_repo.save_data(@@model, payload)
   end
 
