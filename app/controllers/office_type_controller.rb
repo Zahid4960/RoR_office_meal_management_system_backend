@@ -40,21 +40,27 @@ class OfficeTypeController < ApplicationController
   end
 
   def update
-    begin
-      if update_office_type_params.blank?
-        render json: { status: 'error', message: 'type_name can not null or empty!!!' }
-      else
+    # begin
+    #   if update_office_type_params.blank?
+    #     render json: { status: 'error', message: 'type_name can not null or empty!!!' }
+    #   else
+    # if update_office_type_params.validate!
+    #   render json: "validate hoise"
+    # else
+    #   render json: "validate hoi nai"
+    # end
         @data = office_type_service.update(params[:id], update_office_type_params)
-        if @data
-          @data = office_type_service.show(params[:id])
-          render json: { status: "success", message: "Office type data updated successfully!!!", data: @data }
-        else
-          render json: { status: 'error', message: 'Office type failed to update (office type exists already!!!)' }
-        end
-      end
-    rescue
-      render json: { status: "error", message: "Exception appear!!!" }
-    end
+    # render json: @data
+    #     if @data
+    #       @data = office_type_service.show(params[:id])
+    #       render json: { status: "success", message: "Office type data updated successfully!!!", data: @data }
+    #     else
+          render json: { status: 'error', error: @data.errors.full_messages.first }
+    #     end
+    #   # end
+    # rescue => error
+    #   render json: { status: "exception", message: "Exception appear to update office type!!!", exception: error.message }
+    # end
   end
 
   def destroy

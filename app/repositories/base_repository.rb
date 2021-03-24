@@ -19,6 +19,8 @@ class BaseRepository
   def update_data(model, id, payload)
     @data = find_by_id(model, id)
     @data.update(payload)
+    # model.find(id).update(payload)
+    # model.update(payload).where(id: id)
   end
 
   def delete_data(model, id)
