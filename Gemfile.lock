@@ -43,8 +43,6 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
     arel (9.0.0)
-    bcrypt (3.1.16)
-    bcrypt (3.1.16-java)
     bootsnap (1.7.3)
       msgpack (~> 1.0)
     builder (3.2.4)
@@ -73,7 +71,8 @@ GEM
     marcel (0.3.3)
       mimemagic (~> 0.3.2)
     method_source (1.0.0)
-    mimemagic (0.3.6)
+    mimemagic (0.3.8)
+      nokogiri (~> 1)
     mini_mime (1.0.2)
     mini_portile2 (2.5.0)
     minitest (5.14.4)
@@ -165,7 +164,6 @@ PLATFORMS
   x86-mswin32
 
 DEPENDENCIES
-  bcrypt (~> 3.1.7)
   bootsnap (>= 1.1.0)
   byebug
   jwt
