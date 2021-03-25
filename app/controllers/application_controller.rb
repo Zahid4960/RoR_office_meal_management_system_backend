@@ -12,7 +12,7 @@ class ApplicationController < ActionController::API
     if auth_header
       token = auth_header.split(' ')[1]
       begin
-        JWT.decode(token, 'yourSecret', true, algorithm: 'HS256')
+        JWT.decode(token, 'bitchcgpa4', true, algorithm: 'HS256')
       rescue JWT::DecodeError
         nil
       end
@@ -31,6 +31,6 @@ class ApplicationController < ActionController::API
   end
 
   def authorized
-    render json: { message: 'Please log in' }, status: :unauthorized unless logged_in?
+    render json: { message: 'Invalid token' }, status: :unauthorized unless logged_in?
   end
 end

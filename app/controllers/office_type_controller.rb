@@ -1,5 +1,6 @@
 class OfficeTypeController < ApplicationController
 
+  before_action :authorized
   require_relative '../services/office_type_service'
 
   def index
