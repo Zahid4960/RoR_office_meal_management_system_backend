@@ -9,7 +9,7 @@ class BaseRepository
   end
 
   def save_data(model, payload)
-    @data = model.create(payload)
+    @data = model.create!(payload)
   end
 
   def find_by_id(model, id)
@@ -18,9 +18,7 @@ class BaseRepository
 
   def update_data(model, id, payload)
     @data = find_by_id(model, id)
-    @data.update(payload)
-    # model.find(id).update(payload)
-    # model.update(payload).where(id: id)
+    @data.update!(payload)
   end
 
   def delete_data(model, id)
