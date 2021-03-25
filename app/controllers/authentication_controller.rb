@@ -2,59 +2,28 @@ class AuthenticationController < ApplicationController
 
   def registration
     begin
-      @registration_data = User.new(registration_params)
-
-      @registration_data.plain_password = @registration_data.password
-      @encrypted_password = BCrypt::Password.create(@registration_data.password)
-      @registration_data.password = @encrypted_password
-
-      if @registration_data.save
-        render json: {
-          status: 'success',
-          message: 'Registration Successful!!',
-          data: @registration_data
-        }
-      else
-        render json: {
-          status: 'error',
-          message: 'Registration Not Successful!!',
-          errors: @registration_data.errors
-        }
-      end
-    rescue
-      render json: {
-        status: 'error',
-        message: 'Please input valid email, username & password!!'
-      }
+      @registration_data = Hash.new
+      @registration_data["email"] = registration_params[:email]
+      @registration_data["user_name"] = registration_params[:user_name]
+      @registration_data["plain_password"] = registration_params[:password]
+      @registration_data["password"] = BCrypt::Password.create(@registration_data[:password])
+      @user = User.create!(@registration_data)
+      @token = encode_token({user_id: @user.id})
+      render json: {user: @user, token: @token}
+    rescue => error
+      render json: { status: "exception", message: "Exception appear failed to registration!!!", exception: error.message }
     end
   end
-
 
   def login
-    @user_data = User.where(email: login_params[:email]).first
-    if @user_data.blank?
-      render json: {
-        staus: 'error',
-        message: 'Invalid Email!!'
-      }
-
+    @user = User.where(email: params[:email]).first
+    if @user && BCrypt::Password.new(@user.password) == params[:password]
+      @token = encode_token({user_id: @user.id})
+      render json: { status: "success", message: "Login successful!!!", user: @user, token: @token }
     else
-      if BCrypt::Password.new(@user_data.password) == login_params[:password]
-        session[:current_user_id] = @user_data.id
-        session[:current_user_email] = @user_data.email
-        render json: {
-          status: 'success',
-          message: 'Successfully loged In!!'
-        }
-      else
-        render json: {
-          status: 'error',
-          message: 'Password Does Not Match!!'
-        }
-      end
+      render json: { status: "error", message: "Invalid username or password" }
     end
   end
-
 
   private
   def registration_params
@@ -65,11 +34,4 @@ class AuthenticationController < ApplicationController
     )
   end
 
-
-  def login_params
-    params.permit(
-      :email,
-      :password
-    )
-  end
 end
