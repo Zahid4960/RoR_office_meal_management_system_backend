@@ -1,18 +1,19 @@
 class ApplicationController < ActionController::API
 
   def encode_token(payload)
-    JWT.encode(payload, 'bitchcgpa4')
+    payload[:exp] = Time.now.to_i + 3600
+    JWT.encode(payload, ENV["jwt_secret"])
   end
 
   def auth_header
-    request.headers['Authorization']
+    request.headers["Authorization"]
   end
 
   def decoded_token
     if auth_header
       @token = auth_header.split(' ')[1]
       begin
-        JWT.decode(@token, "bitchcgpa4", true, algorithm: "HS256")
+        JWT.decode(@token, ENV["jwt_secret"], true, algorithm: "HS256")
       rescue JWT::DecodeError
         nil
       end
@@ -31,6 +32,6 @@ class ApplicationController < ActionController::API
   end
 
   def authorized
-    render json: { message: "Token is invalid please provide a valid token" }, status: :unauthorized unless logged_in?
+    render json: { status: "error", message: "Token is invalid please provide a valid token" }, status: :unauthorized unless logged_in?
   end
 end

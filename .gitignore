@@ -26,3 +26,5 @@
 /config/database.yml
 
 .idea/
+
+/config/initializers/dev_environment.rb
