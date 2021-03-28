@@ -5,8 +5,8 @@ class DeptService
 
   @@model = Department
 
-  def index
-    dept_repo.dept_with_office
+  def index(page, limit)
+    dept_repo.dept_with_office(page, limit)
   end
 
   def create(payload)
