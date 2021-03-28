@@ -2,12 +2,16 @@ class DesignationRepository < BaseRepository
 
   require_relative '../models/designation'
 
-  def designation_with_office
-    query.active
+  def designation_with_office(page, limit)
+    if limit.to_i == -1
+      query
+    else
+      query.paginate(page: page, :per_page => limit)
+    end
   end
 
   def find_designation_with_office(id)
-    query.active.find(id)
+    query.find(id)
   end
 
   def query

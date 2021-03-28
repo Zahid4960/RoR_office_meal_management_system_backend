@@ -1,35 +1,28 @@
 class DesignationController < ApplicationController
 
+  before_action :authorized
   require_relative '../services/designation_service'
 
   def index
     begin
       @limit = params['limit'] != nil ? params['limit'] : 10
-      @lists = designation_service.index
-      @data = @lists.paginate(page: params[:page], :per_page => @limit)
-      if @data.length > 0
-        render json: { status: "success", message: "Designation data found!!!", data: @data }
+      @lists = designation_service.index(params[:page], @limit)
+      if @lists.length > 0
+        render json: { status: "success", message: "Designation data found!!!", data: @lists }
       else
-        render json: { status: "success", message: "Designation data not found!!!", data: @data }
+        render json: { status: "success", message: "Designation data not found!!!", data: @lists }
       end
-    rescue
-      render json: { status: "error", message: "Exception appear!!!" }
+    rescue => error
+      render json: { status: "error", message: "Exception appear at fetching designation data!!!", exception: error.message }
     end
   end
 
   def create
     begin
-      if designation_params.blank?
-        render json: { status: 'error', message: 'Designation name & office can not null or empty!!!' }
-      else
-        @data = designation_service.create(designation_params)
-        if @data
-          @data = designation_service.last_inserted
-          render json: { status: 'success', message: 'Designation saved successfully!!!', data: designation_service.show(@data.id) }
-        end
-      end
-    rescue
-      render json: { status: "error", message: "Exception appear designation failed to save!!!" }
+      @data = designation_service.create(designation_params)
+      render json: { status: 'success', message: 'Designation saved successfully!!!', data: designation_service.show(@data.id) }
+    rescue => error
+      render json: { status: "error", message: "Exception appear designation failed to save!!!", exception: error.message }
     end
   end
 
@@ -37,35 +30,27 @@ class DesignationController < ApplicationController
     begin
       @designation_by_id = designation_service.show(params[:id])
       render json: { status: "success", message: "Designation data Found!!!", data: @designation_by_id }
-    rescue
-      render json: { status: "success", message: "Exception appears Designation data not found!!!" }
+    rescue => error
+      render json: { status: "error", message: "Exception appears designation data not found!!!", exception: error.message }
     end
   end
 
   def update
     begin
-      if update_designation_params.blank?
-        render json: { status: 'error', message: ' Designation name & office can not null or empty!!!' }
-      else
-        @data = designation_service.update(params[:id], update_designation_params)
-        if @data
-          @data = designation_service.show(params[:id])
-          render json: { status: "success", message: "Designation data updated successfully!!!", data: @data }
-        end
-      end
-    rescue
-      render json: { status: "error", message: "Exception appear designation failed to update!!!" }
+      @data = designation_service.update(params[:id], update_designation_params)
+      @data = designation_service.show(params[:id])
+      render json: { status: "success", message: "Designation data updated successfully!!!", data: @data }
+    rescue => error
+      render json: { status: "error", message: "Exception appear designation failed to update!!!", exception: error.message }
     end
   end
 
   def destroy
     begin
       @data = designation_service.destroy(params[:id])
-      if @data
-        render json: { status: "success", message: "Designation data deleted successfully!!!" }
-      end
-    rescue
-      render json: { status: "error", message: "Exception Appear (designation not found!!!)" }
+      render json: { status: "success", message: "Designation data deleted successfully!!!" }
+    rescue => error
+      render json: { status: "error", message: "Exception Appear failed to delete designation data", exception: error.message }
     end
   end
 

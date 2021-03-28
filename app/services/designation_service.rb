@@ -5,8 +5,8 @@ class DesignationService
 
   @@model = Designation
 
-  def index
-    designation_repo.designation_with_office
+  def index(page, limit)
+    designation_repo.designation_with_office(page, limit)
   end
 
   def create(payload)
