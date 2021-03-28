@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     resources :office
     resources :designation
     resources :department
-    resources :day
+    get "day" => "day#index"
   end
 
 end
