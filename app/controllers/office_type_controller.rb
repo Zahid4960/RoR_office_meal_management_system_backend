@@ -13,7 +13,7 @@ class OfficeTypeController < ApplicationController
         render json: { status: "success", message: "Office types Data not found!!!", data: @data }
       end
     rescue => error
-      render json: { status: "exception", message: "Exception appear at the office type data fetching!!!", exception: error.message }
+      render json: { status: "error", message: "Exception appear at the office type data fetching!!!", exception: error.message }
     end
   end
 
@@ -23,7 +23,7 @@ class OfficeTypeController < ApplicationController
       @data = office_type_service.last_inserted
       render json: { status: 'success', message: 'Office type saved successfully!!!', data: @data }
     rescue => error
-      render json: { status: "exception", message: "Exception appear office type failed to save!!!" , exception: error.message }
+      render json: { status: "error", message: "Exception appear office type failed to save!!!" , exception: error.message }
     end
   end
 
@@ -32,16 +32,17 @@ class OfficeTypeController < ApplicationController
       @data = office_type_service.show(params[:id])
       render json: { status: "success", message: "Office type data found!!!", data: @data }
     rescue => error
-      render json: { status: "exception", message: "Exception Appear office type data not found!!!", exception: error.message }
+      render json: { status: "error", message: "Exception Appear office type data not found!!!", exception: error.message }
     end
   end
 
   def update
     begin
-      @data = office_type_service.update(params[:id], update_office_type_params)
+      office_type_service.update(params[:id], update_office_type_params)
+      @data = office_type_service.show(params[:id])
       render json: { status: "success", message: "Office type data updated successfully!!!", data: @data }
     rescue => error
-      render json: { status: "exception", message: "Exception appear to update office type!!!", exception: error.message }
+      render json: { status: "error", message: "Exception appear to update office type!!!", exception: error.message }
     end
   end
 
@@ -50,7 +51,7 @@ class OfficeTypeController < ApplicationController
       @data = office_type_service.destroy(params[:id])
       render json: { status: "success", message: "Office type data deleted successfully!!!" }
     rescue => error
-      render json: { status: "exception", message: "Exception Appear office type failed to delete!!!", exception: error.message }
+      render json: { status: "error", message: "Exception Appear office type failed to delete!!!", exception: error.message }
     end
   end
 

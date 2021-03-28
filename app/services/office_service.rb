@@ -5,8 +5,8 @@ class OfficeService
 
   @@model = Office
 
-  def index
-    office_repo.office_with_type
+  def index(page, limit)
+    office_repo.office_with_type(page, limit)
   end
 
   def create(payload)
