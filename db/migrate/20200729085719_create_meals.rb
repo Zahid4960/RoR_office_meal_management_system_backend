@@ -7,6 +7,6 @@ class CreateMeals < ActiveRecord::Migration[5.2]
       t.references :office, index: true
       t.timestamps
     end
-    add_foreign_key :meals, :offices, on_delete: :cascade
+    add_foreign_key :meals, :offices, on_update: :cascade, on_delete: :cascade
   end
 end

@@ -17,9 +17,9 @@ class CreateUserInfos < ActiveRecord::Migration[5.2]
       t.references :department, index: true
       t.timestamps
     end
-    add_foreign_key :user_infos, :offices, on_delete: :cascade
-    add_foreign_key :user_infos, :users, on_delete: :cascade
-    add_foreign_key :user_infos, :designations, on_delete: :cascade
-    add_foreign_key :user_infos, :departments, on_delete: :cascade
+    add_foreign_key :user_infos, :offices, on_update: :cascade, on_delete: :cascade
+    add_foreign_key :user_infos, :users, on_update: :cascade, on_delete: :cascade
+    add_foreign_key :user_infos, :designations, on_update: :cascade, on_delete: :cascade
+    add_foreign_key :user_infos, :departments, on_update: :cascade, on_delete: :cascade
   end
 end

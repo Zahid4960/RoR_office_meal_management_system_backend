@@ -119,15 +119,15 @@ ActiveRecord::Schema.define(version: 2020_07_29_085719) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "departments", "offices", on_delete: :cascade
-  add_foreign_key "designations", "offices", on_delete: :cascade
-  add_foreign_key "meal_settings", "offices", on_delete: :cascade
-  add_foreign_key "meals", "offices", on_delete: :cascade
-  add_foreign_key "off_days", "days", on_delete: :cascade
-  add_foreign_key "off_days", "offices", on_delete: :cascade
-  add_foreign_key "offices", "office_types", on_delete: :cascade
-  add_foreign_key "user_infos", "departments", on_delete: :cascade
-  add_foreign_key "user_infos", "designations", on_delete: :cascade
-  add_foreign_key "user_infos", "offices", on_delete: :cascade
-  add_foreign_key "user_infos", "users", on_delete: :cascade
+  add_foreign_key "departments", "offices", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "designations", "offices", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "meal_settings", "offices", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "meals", "offices", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "off_days", "days", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "off_days", "offices", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "offices", "office_types", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "user_infos", "departments", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "user_infos", "designations", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "user_infos", "offices", on_update: :cascade, on_delete: :cascade
+  add_foreign_key "user_infos", "users", on_update: :cascade, on_delete: :cascade
 end

@@ -6,6 +6,6 @@ class CreateDesignations < ActiveRecord::Migration[5.2]
       t.boolean :active, default: 1
       t.timestamps
     end
-    add_foreign_key :designations, :offices, on_delete: :cascade
+    add_foreign_key :designations, :offices, on_update: :cascade, on_delete: :cascade
   end
 end
